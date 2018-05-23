@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import { getFunName } from '../helpers.js';
 
 class StorePicker extends React.Component {
-	constructor() {
-		super();
-		// One way to make the Component available to internal
-		// functions, but since all properties are assigned to
-		// the Component, we'll use that method instead
-		// this.goToStore = this.goToStore.bind(this);
-	}
+	// constructor() {
+	// 	super();
+	// 	// One way to make the Component available to internal
+	// 	// functions, but since all properties are assigned to
+	// 	// the Component, we'll use that method instead
+	// 	// this.goToStore = this.goToStore.bind(this);
+	// }
 
 	// Refs expose the dom element to which this is attached accessible
 	storeNameInput = React.createRef();
