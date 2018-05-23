@@ -3,9 +3,9 @@ import React, { Fragment } from 'react';
 class Order extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				<div className="order">Order</div>
-			</React.Fragment>
+			</Fragment>
 		)
 	}
 }

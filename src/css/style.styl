@@ -37,8 +37,8 @@ header.top
       padding-left 1rem
       padding-right 1rem
     &:before, &:after
-      display block
-      z-index 1
+      display block /* It was a span which is inline, now we've made it a block */
+      z-index 1 /* The stuff in the before and after will be drawn behind the span */
       background black
       position absolute
       width 130%
@@ -69,7 +69,7 @@ header.top
     box-shadow 0 5px 5px rgba(0,0,0,0.1)
     overflow scroll
     &:first-child
-      flex-shrink 1 // take 4x the extra room
+      flex-shrink 1 // slice off 4x when there isn't sufficient space
       flex-basis 50%
       transform translateX(50%) rotateY(6deg) translateX(-50%)
     &:nth-child(2)
@@ -78,7 +78,7 @@ header.top
       border-right 0
       min-width 300px
     &:last-child
-      flex-shrink 1 // take 4x the extra room
+      flex-shrink 1 / // slice off 4x when there isn't sufficient space
       flex-basis 50%
       transform translateX(-50%) rotateY(10deg) translateX(50%) scale(1.08) translateX(24px)
 

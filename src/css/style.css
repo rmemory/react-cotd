@@ -567,7 +567,7 @@ button:after,
 input[type=submit]:after {
   content: '';
   z-index: -1;
-  display: block;
+  display: inline-block;
   background: #000;
   position: absolute;
   width: 100%;

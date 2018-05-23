@@ -7,15 +7,17 @@ import Inventory from './Inventory.jsx';
 class App extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				<div className="catch-of-the-day">
 					<div className="menu">
-						<Header/>
+						{/* String props, like this one can be just quotes. Other
+							kinds of props like numbers must be in curly braces */}
+						<Header tagline="Fresh Seafood Daily"/>
 					</div>
 					<Order/>
 					<Inventory/>
 				</div>
-			</React.Fragment>
+			</Fragment>
 		)
 	}
 }
