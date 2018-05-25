@@ -13,14 +13,21 @@ class App extends React.Component {
 		order: {}
 	};
 
-	addFish = (fish, name='') => {
+	addFish = (fish) => {
 		const copyOfFishState = {...this.state.fishes};
-		const key = name === '' ? `fish-${Date.now()}` : name;
-		copyOfFishState[key] = fish;
+		copyOfFishState[`fish-${Date.now()}`] = fish;
 		// All pages that refer to fishes will be updated
 		this.setState({
 			fishes: copyOfFishState
 		});
+	}
+
+	addToOrder = (fishName) => {
+		const copyOfOrderState = {...this.state.order};
+		copyOfOrderState[fishName] = copyOfOrderState[fishName] + 1 || 1;
+		this.setState({
+			order: copyOfOrderState
+		})
 	}
 
 	loadSampleFishes = () => {
@@ -37,14 +44,18 @@ class App extends React.Component {
 							kinds of props like numbers must be in curly braces */}
 						<Header tagline="Fresh Seafood Daily"/>
 						<ul className="fishes">
-							{Object.keys(this.state.fishes).map((fishName) => {
+							{Object.keys(this.state.fishes).map((fishKey) => {
 								return <Fish 
-										key={fishName} 
-										fishObject={this.state.fishes[fishName]}/>
+										key={fishKey} 
+										fishKey={fishKey}
+										fishObject={this.state.fishes[fishKey]}
+										addToOrderStateFunc={this.addToOrder}/>
 							})}
 						</ul>
 					</div>
-					<Order/>
+					<Order 
+						fishes={this.state.fishes} 
+						order={this.state.order}/>
 					<Inventory 
 						addFishStateFunc={this.addFish} 
 						loadSampleFishesStateFunc={this.loadSampleFishes}/>
