@@ -3,14 +3,20 @@ import { formatPrice } from '../helpers';
 
 class Order extends React.Component {
 	renderOrder = (id) => {
-		if (this.props.fishes[id].status === 'available') {
+		const fish = this.props.fishes[id];
+		const count = this.props.order[id];
+
+		// This will occur when firebase is restoring fishes state
+		if (!fish) return null;
+
+		if (fish.status === 'available') {
 			return <li key={id}>
-					{this.props.order[id]} lbs {this.props.fishes[id].name}: 
-						{formatPrice(this.props.order[id] * this.props.fishes[id].price)}
+					{count} lbs {fish.name}: 
+						{formatPrice(count * fish.price)}
 					</li>
 		} else {
 			return <li key={id}>
-					Sorry, {this.props.fishes[id] ? this.props.fishes[id].name : 'fish'} is no longer available
+					Sorry, {fish ? fish.name : 'fish'} is no longer available
 				   </li>
 		}
 	}

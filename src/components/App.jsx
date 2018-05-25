@@ -14,7 +14,18 @@ class App extends React.Component {
 		order: {}
 	};
 
+	/* Database methods */
 	componentDidMount() {
+		// Restore local storage first
+		const localStorageRef = localStorage.getItem(this.props.match.params.storeId);
+		// If this isn't a new store, meaning there is localStorageRef, then setState
+		if (localStorageRef) {
+			this.setState({order: JSON.parse(localStorageRef)});
+		}
+
+		// The refresh of local storage above will be immediate. The refresh
+		// of the fishes will take some time. Fishes state will be empty until 
+		// firebase restores the data, causing undefined when rendering the order
 		this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`, {
 			context: this,
 			state: 'fishes'
@@ -24,6 +35,13 @@ class App extends React.Component {
 	// clean up after the user exists the store to prevent memory leak
 	componentWillUnmount() {
 		base.removeBinding(this.ref);
+	}
+
+	/* local storage methods 
+		This method is called after the app has updated, which happens
+		when the user has added items to his order */
+	componentDidUpdate() {
+		localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
 	}
 
 	addFish = (fish) => {

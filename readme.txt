@@ -207,3 +207,6 @@ a "fishes" folder in the database, where the database has the same name as the s
 		base.removeBinding(this.ref);
 	}
 
+Step 7) Persist order information in local storage. This information doesn't require
+any authentication. If you open the developer tools, open the Application tab, then 
+Local Storage, and the URL, you will see all of the items stored in local storage.
