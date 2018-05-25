@@ -210,3 +210,41 @@ a "fishes" folder in the database, where the database has the same name as the s
 Step 7) Persist order information in local storage. This information doesn't require
 any authentication. If you open the developer tools, open the Application tab, then 
 Local Storage, and the URL, you will see all of the items stored in local storage.
+
+
+Here is the updated code in app.
+
+	/* Database methods */
+	componentDidMount() {
+		// Restore local storage first
+		const localStorageRef = localStorage.getItem(this.props.match.params.storeId);
+		// If this isn't a new store, meaning there is localStorageRef, then setState
+		if (localStorageRef) {
+			this.setState({order: JSON.parse(localStorageRef)});
+		}
+
+		// The refresh of local storage above will be immediate. The refresh
+		// of the fishes will take some time. Fishes state will be empty until 
+		// firebase restores the data, causing undefined when rendering the order
+		this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`, {
+			context: this,
+			state: 'fishes'
+		});
+	}
+
+	/* local storage methods 
+		This method is called after the app has updated, which happens
+		when the user has added items to his order */
+	componentDidUpdate() {
+		localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
+	}
+
+*** To update any field that contains state data, we must use an onChange event handler.
+
+handleChange = event => {
+	console.log(event.currentTarget.value);
+}
+const { name, price, status, desc, image } = this.props.fish;
+<input type="text" name="name" onChange={this.handleChange} value={name}/>
+
+To make the actual edit in the input field, we must actually update the value in state.

@@ -66,6 +66,22 @@ class App extends React.Component {
 		this.setState({fishes: sample_fishes});
 	}
 
+	editFish = (key, updatedFishObject) => {
+		const copyOfFishState = {...this.state.fishes};
+		copyOfFishState[key] = updatedFishObject;
+		this.setState({
+			fishes: copyOfFishState
+		});
+	}
+
+	deleteFish = (key) => {
+		const copyOfFishState = {...this.state.fishes};
+		copyOfFishState[key] = null; // Required by firebase
+		this.setState({
+			fishes: copyOfFishState
+		});
+	}
+
 	render() {
 		return (
 			<Fragment>
@@ -89,7 +105,9 @@ class App extends React.Component {
 						order={this.state.order}/>
 					<Inventory 
 						addFishStateFunc={this.addFish} 
-						loadSampleFishesStateFunc={this.loadSampleFishes}/>
+						loadSampleFishesStateFunc={this.loadSampleFishes}
+						editFishStateFunc={this.editFish}
+						fishes={this.state.fishes} />
 				</div>
 			</Fragment>
 		)
