@@ -124,7 +124,8 @@ class App extends React.Component {
 						removeFromOrderStateFunc={this.removeFromOrder}/>
 					<Inventory 
 						addFishStateFunc={this.addFish}
-						deleteFishStateFunc={this.deleteFish}  
+						deleteFishStateFunc={this.deleteFish}
+						storeId = {this.props.match.params.storeId}
 						loadSampleFishesStateFunc={this.loadSampleFishes}
 						editFishStateFunc={this.editFish}
 						fishes={this.state.fishes} />

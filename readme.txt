@@ -291,3 +291,41 @@ Becomes this ...
 			</li>
 		</CSSTransition>
 	)
+
+*** authentication
+
+Step 1) Go to firebase console, and firebase application, Authentication tab,
+and select a "sign-in method". I enabled Facebook and Github.
+
+We need API keys for each application selected: App ID and App Secret.
+
+Step 2) Create a facebook app. 
+
+Got to https://developers.facebook.com, create a new APP, I called it cotd.
+Under the Settings->Basic tab, you can find the App ID and App Secret which
+need to be copied to the Facebook section in your firebase app.  
+
+Also, from the firebase app, copy the OAuth redirect URL to the app in 
+Facebook (Facebook Login -> Settings -> Valid OAuth Redirect URIs). 
+Turn on "Embedded Browser OAuth Login".
+
+Save changes in the Facebook app, and also the firebase app to save the 
+Facebook related changes.
+
+Step 3) Create a github app.
+
+Sign in to https://github.com/, go to: 
+
+account Settings->Applications->Developer settings->New OAuth app
+
+Give it a name. Copy the Client ID and Client Secret to their location in 
+the firebase app for Github. Copy the OAuth callback url from firebase to
+the Authorization callback URL in github. Save the changes in both github
+and firebase.
+
+Step 4) Write OAuth handlers. Create Login.jsx Component. 
+
+
+
+
+
