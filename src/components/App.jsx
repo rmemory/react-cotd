@@ -6,12 +6,25 @@ import Inventory from './Inventory.jsx';
 import Fish from './Fish.jsx';
 
 import sample_fishes from '../sample-fishes';
+import base from '../base';
 
 class App extends React.Component {
 	state = {
 		fishes: {},
 		order: {}
 	};
+
+	componentDidMount() {
+		this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`, {
+			context: this,
+			state: 'fishes'
+		});
+	}
+
+	// clean up after the user exists the store to prevent memory leak
+	componentWillUnmount() {
+		base.removeBinding(this.ref);
+	}
 
 	addFish = (fish) => {
 		const copyOfFishState = {...this.state.fishes};

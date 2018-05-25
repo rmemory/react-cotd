@@ -91,3 +91,119 @@ Next, select $r.myFunction(someArg)
 	return <li key={id}>
 			Sorry, {this.props.fishes[id] ? this.props.fishes[id].name : 'fish'} is no longer available
 			</li>
+
+*** Firebase notes
+
+It uses web sockets, which fire updates in real time rather than AJAX. This updates all current
+users of the database. They offer an authentication feature, which we will use. They also offer a 
+database which we will use. We won't be using the storage, hosting, or function features
+of firebase.
+
+Step 1) Go to https://firebase.google.com and create an account.
+
+Step 2) Add Project. Give it a project name. Select a geographical location.
+
+Step 3) Click on Getting Started, and for now select the Dismiss button to dismiss default
+security rules requiring users to be authenticated. Stated differently, the Database->rules 
+JS object should look like this to disable authentication (temporarily)
+
+{
+  "rules": {
+    ".write": true,
+    ".read": true
+    }
+}
+
+Step 4) Click on Project Overview, select web app. This provides the API keys.
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAH894Ddjcui6-XHVNMxoqYAmExsSOlxk4",
+    authDomain: "cotd-rmemory.firebaseapp.com",
+    databaseURL: "https://cotd-rmemory.firebaseio.com",
+    projectId: "cotd-rmemory",
+    storageBucket: "cotd-rmemory.appspot.com",
+    messagingSenderId: "942796800086"
+  };
+  firebase.initializeApp(config);
+</script>
+
+We only need the innards of the config. But first, we need to create a local base.js file.
+
+
+Step 5) Locally, create a base.js file. This is not a React component.
+
+import Rebase from 're-base'; // Allows state to be be mirrored to firebase
+import firebase from 'firebase'; // we pass the rebase to firebase
+
+const firebaseApp = firebase.initializeApp();
+
+Paste the config innards into the initializeApp args.
+
+const firebaseApp = firebase.initializeApp(
+	apiKey: "AIzaSyAH894Ddjcui6-XHVNMxoqYAmExsSOlxk4",
+    authDomain: "cotd-rmemory.firebaseapp.com",
+    databaseURL: "https://cotd-rmemory.firebaseio.com"
+);
+
+Now we need to create our rebase. 
+
+const base = Rebase.createClass(firebaseApp.database());
+
+The call to database, returns the actual database.
+
+Export everything:
+
+// This is a named export
+export { firebaseApp }
+
+// This is a default export
+export default base;
+
+The final base.js file looks like this:
+
+import Rebase from 're-base'; // Allows state to be be mirrored to firebase
+import firebase from 'firebase'; // we pass the rebase to firebase
+
+const firebaseApp = firebase.initializeApp({
+	apiKey: "AIzaSyAH894Ddjcui6-XHVNMxoqYAmExsSOlxk4",
+	authDomain: "cotd-rmemory.firebaseapp.com",
+	databaseURL: "https://cotd-rmemory.firebaseio.com"
+});
+
+const base = Rebase.createClass(firebaseApp.database());
+
+// This is a named export
+export { firebaseApp }
+
+// This is a default export
+export default base;
+
+Step 6) Integrate the database with the react app, where the state is contained. 
+In our case this is App.jsx.
+
+To do this, we need to wait until the app is on the page. And we need to use a 
+lifecycle method: componentDidMount: The very first possible second when the component
+displays on the page. 
+
+https://reactjs.org/docs/react-component.html
+
+Add this code to sync the fishes part of state (not including the order), and put it into
+a "fishes" folder in the database, where the database has the same name as the storeId
+
+	import base from '../base';
+
+	componentDidMount() {
+		this.ref = base.syncState(`${this.props.match.params.storeId}/fishes`, {
+			context: this,
+			state: 'fishes'
+		});
+	}
+
+	// clean up after the user exists the store to prevent memory leak
+	componentWillUnmount() {
+		base.removeBinding(this.ref);
+	}
+
