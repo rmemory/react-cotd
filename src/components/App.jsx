@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from  "prop-types";
 
 import Header from './Header.jsx';
 import Order from './Order.jsx';
@@ -112,7 +113,7 @@ class App extends React.Component {
 								return <Fish 
 										key={fishKey} 
 										fishKey={fishKey}
-										fishObject={this.state.fishes[fishKey]}
+										fish={this.state.fishes[fishKey]}
 										addToOrderStateFunc={this.addToOrder}/>
 							})}
 						</ul>
@@ -131,6 +132,10 @@ class App extends React.Component {
 			</Fragment>
 		)
 	}
+}
+
+App.propTypes = {
+	match: PropTypes.object.isRequired
 }
 
 export default App;

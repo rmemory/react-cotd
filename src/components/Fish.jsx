@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from  "prop-types";
 
 import { formatPrice } from '../helpers';
 
@@ -8,7 +9,7 @@ class Fish extends React.Component {
 	}
 	
 	render() {
-		const {name, price, status, desc, image} = this.props.fishObject;
+		const {name, price, status, desc, image} = this.props.fish;
 		const isAvailable = status === 'available';
 
 		return (
@@ -25,6 +26,17 @@ class Fish extends React.Component {
 			</Fragment>
 		)
 	}
+}
+
+Fish.propTypes = {
+	fishKey: PropTypes.string.isRequired,
+	fish: PropTypes.shape({
+		image: PropTypes.string,
+		name: PropTypes.string,
+		desc: PropTypes.string,
+		status: PropTypes.string,
+		price: PropTypes.number
+	}).isRequired
 }
 
 export default Fish;

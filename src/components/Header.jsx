@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from  "prop-types";
 
 /* Note that when you have a stateless component like this one,
 	'this' disappears (its just a function), and it takes the 
@@ -28,6 +29,10 @@ const Header = ({tagline}) => (
 		</header>
 	</Fragment>
 );
+
+Header.propTypes = {
+	tagline: PropTypes.string.isRequired
+}
 
 // Because this is a stateless component, don't need this
 // class Header extends React.Component {

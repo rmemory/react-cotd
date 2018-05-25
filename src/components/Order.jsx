@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
-import { formatPrice } from '../helpers';
+import PropTypes from  "prop-types";
 import { TransitionGroup, CSSTransition} from 'react-transition-group';
+
+import { formatPrice } from '../helpers';
 
 class Order extends React.Component {
 	renderOrder = (fishKey) => {
@@ -84,6 +86,17 @@ class Order extends React.Component {
 			</Fragment>
 		)
 	}
+}
+
+Order.propTypes = {
+	fishes: PropTypes.shape({
+		image: PropTypes.string,
+		name: PropTypes.string,
+		desc: PropTypes.string,
+		status: PropTypes.string,
+		price: PropTypes.number
+	}).isRequired,
+	order: PropTypes.object.isRequired
 }
 
 export default Order;

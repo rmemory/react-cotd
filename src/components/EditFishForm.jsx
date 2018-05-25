@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from  "prop-types";
 
 class EditFishForm extends React.Component {
 	handleChange = (event) => {
@@ -29,6 +30,18 @@ class EditFishForm extends React.Component {
 			</Fragment>
 		)
 	}
+}
+
+EditFishForm.propTypes = {
+	editFishStateFunc: PropTypes.func.isRequired,
+	deleteFishStateFunc: PropTypes.func.isRequired,
+	fishKey: PropTypes.string.isRequired,
+	fish: PropTypes.shape({
+		image: PropTypes.string,
+		name: PropTypes.string,
+		desc: PropTypes.string,
+		status: PropTypes.string,
+		price: PropTypes.number})
 }
 
 export default EditFishForm;

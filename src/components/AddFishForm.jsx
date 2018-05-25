@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from  "prop-types";
 
 class AddFishForm extends React.Component {
 	nameRef = React.createRef();
@@ -38,6 +39,10 @@ class AddFishForm extends React.Component {
 			</Fragment>
 		)
 	}
+}
+
+AddFishForm.propTypes = {
+	addFishStateFunc: PropTypes.func.isRequired
 }
 
 export default AddFishForm;
