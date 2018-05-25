@@ -24,31 +24,27 @@
   padding: 0;
 }
 .count-enter {
-  background: #f00;
   -webkit-transition: 0.5s;
   transition: 0.5s;
   -webkit-transform: translateY(100%);
           transform: translateY(100%);
 }
 .count-enter.count-enter-active {
-  background: #ff0;
   -webkit-transform: translateY(0);
           transform: translateY(0);
 }
 .count-exit {
-  background: #000;
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
   position: absolute;
   left: 0;
   bottom: 0;
 }
 .count-exit.count-exit-active {
-  background: #008000;
-  -webkit-transform: translateY(-100%) scale(3);
-          transform: translateY(-100%) scale(3);
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
 }
 @font-face {
   font-family: "haymakerregular";
@@ -309,8 +305,8 @@ header.top h3 span {
 }
 header.top h3:before,
 header.top h3:after {
-  display: block;
-  z-index: 1;
+  display: block /* It was a span which is inline, now we've made it a block */;
+  z-index: 1 /* The stuff in the before and after will be drawn behind the span */;
   background: #000;
   position: absolute;
   width: 130%;
@@ -567,7 +563,7 @@ button:after,
 input[type=submit]:after {
   content: '';
   z-index: -1;
-  display: inline-block;
+  display: block;
   background: #000;
   position: absolute;
   width: 100%;

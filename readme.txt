@@ -248,3 +248,46 @@ const { name, price, status, desc, image } = this.props.fish;
 <input type="text" name="name" onChange={this.handleChange} value={name}/>
 
 To make the actual edit in the input field, we must actually update the value in state.
+
+*** For animation ...
+
+import { TransitionGroup, CSSTransition} from 'react-transition-group';
+
+In our case, we are adding animation to a list, so this ..
+
+	<ul className="order">
+		{orderFishKeys.map((fishKey) => this.renderOrder(fishKey))}
+	</ul>
+
+Becomes this ...
+
+	<TransitionGroup component="ul" className="order">
+		{orderFishKeys.map((fishKey) => this.renderOrder(fishKey))}
+	</TransitionGroup>
+
+And this:
+
+	return <li key={fishKey}>
+			{count} lbs {fish.name}: 
+				{formatPrice(count * fish.price)}
+				<button onClick={() => this.props.removeFromOrderStateFunc(fishKey)}>
+					&times;
+				</button>
+			</li>
+
+Becomes this ...
+
+	return (
+		<CSSTransition
+			classNames="orders"
+			key={fishKey}
+			timeout={{enter: 250, exit: 250}}>
+			<li key={fishKey}>
+				{count} lbs {fish.name}: 
+					{formatPrice(count * fish.price)}
+					<button onClick={() => this.props.removeFromOrderStateFunc(fishKey)}>
+						&times;
+					</button>
+			</li>
+		</CSSTransition>
+	)

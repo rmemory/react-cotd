@@ -7,21 +7,51 @@ class Order extends React.Component {
 		const fish = this.props.fishes[fishKey];
 		const count = this.props.order[fishKey];
 
+		const orderTransitionOptions = {
+			classNames: "order",
+			key: fishKey,
+			timeout: {enter: 500, exit: 500}
+		}
+
 		// This will occur when firebase is restoring fishes state
 		if (!fish) return null;
 
 		if (fish.status === 'available') {
-			return <li key={fishKey}>
-					{count} lbs {fish.name}: 
-						{formatPrice(count * fish.price)}
-						<button onClick={() => this.props.removeFromOrderStateFunc(fishKey)}>
-							&times;
-						</button>
+			return (
+				<CSSTransition
+					{...orderTransitionOptions}
+				>
+					<li key={fishKey}>
+						<span>
+							<TransitionGroup
+								component="span"
+								className="count">
+								<CSSTransition
+									classNames="count"
+									key={count}
+									timeout={{ enter: 500, exit: 500 }}>
+									<span>{count}</span>
+								</CSSTransition>
+							</TransitionGroup>
+							lbs {fish.name}: 
+								{formatPrice(count * fish.price)}
+								<button onClick={() => this.props.removeFromOrderStateFunc(fishKey)}>
+									&times;
+								</button>
+						</span>
 					</li>
+				</CSSTransition>
+			)
 		} else {
-			return <li key={fishKey}>
-					Sorry, {fish ? fish.name : 'fish'} is no longer available
-				   </li>
+			return (
+				<CSSTransition
+					{...orderTransitionOptions}
+				>
+					<li key={fishKey}>
+						Sorry, {fish ? fish.name : 'fish'} is no longer available
+					</li>
+				</CSSTransition>
+			)
 		}
 	}
 
@@ -43,9 +73,9 @@ class Order extends React.Component {
 			<Fragment>
 				<div className="order-wrap">
 					<h2>Order</h2>
-					<ul className="order">
+					<TransitionGroup component="ul" className="order">
 						{orderFishKeys.map((fishKey) => this.renderOrder(fishKey))}
-					</ul>
+					</TransitionGroup>
 					<div className="total">
 						Total:
 						<strong>{formatPrice(total)}</strong>
