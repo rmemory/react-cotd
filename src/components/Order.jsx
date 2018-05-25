@@ -1,31 +1,35 @@
 import React, { Fragment } from 'react';
 import { formatPrice } from '../helpers';
+import { TransitionGroup, CSSTransition} from 'react-transition-group';
 
 class Order extends React.Component {
-	renderOrder = (id) => {
-		const fish = this.props.fishes[id];
-		const count = this.props.order[id];
+	renderOrder = (fishKey) => {
+		const fish = this.props.fishes[fishKey];
+		const count = this.props.order[fishKey];
 
 		// This will occur when firebase is restoring fishes state
 		if (!fish) return null;
 
 		if (fish.status === 'available') {
-			return <li key={id}>
+			return <li key={fishKey}>
 					{count} lbs {fish.name}: 
 						{formatPrice(count * fish.price)}
+						<button onClick={() => this.props.removeFromOrderStateFunc(fishKey)}>
+							&times;
+						</button>
 					</li>
 		} else {
-			return <li key={id}>
+			return <li key={fishKey}>
 					Sorry, {fish ? fish.name : 'fish'} is no longer available
 				   </li>
 		}
 	}
 
 	render() {
-		const orderIds = Object.keys(this.props.order);
-		const total = orderIds.reduce((tally, id) => {
-			const fish = this.props.fishes[id];
-			const orderCount = this.props.order[id];
+		const orderFishKeys = Object.keys(this.props.order);
+		const total = orderFishKeys.reduce((tally, fishKey) => {
+			const fish = this.props.fishes[fishKey];
+			const orderCount = this.props.order[fishKey];
 			const isAvailable = fish && fish.status === 'available';
 
 			if (isAvailable) {
@@ -40,7 +44,7 @@ class Order extends React.Component {
 				<div className="order-wrap">
 					<h2>Order</h2>
 					<ul className="order">
-						{orderIds.map((id) => this.renderOrder(id))}
+						{orderFishKeys.map((fishKey) => this.renderOrder(fishKey))}
 					</ul>
 					<div className="total">
 						Total:
